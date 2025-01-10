@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Практические задания</title>
+    <link rel="stylesheet" href="/css/style.css">
+    <script>
+        function toggleTaskLevel(courseName) {
+            var levels = document.getElementById('task-' + courseName.replace(/ /g, '') + '-levels');
+            if (levels.style.display === 'none' || levels.style.display === '') {
+                levels.style.display = 'block';
+            } else {
+                levels.style.display = 'none';
+            }
+        }
+
+        function toggleTaskChapters(courseName, levelName) {
+            var chapters = document.getElementById('task-' + courseName.replace(/ /g, '') + '-' + levelName.replace(/ /g, '') + '-chapters');
+            if (chapters.style.display === 'none' || chapters.style.display === '') {
+                chapters.style.display = 'block';
+            } else {
+                chapters.style.display = 'none';
+            }
+        }
+    </script>
+    <style>
+        .task-level-button {
+            padding: 10px 15px;
+            border: 1px solid #b0bec5;
+            border-radius: 5px;
+            cursor: pointer;
+            margin-bottom: 5px;
+            display: block;
+            width: 100%;
+            text-align: left;
+            box-sizing: border-box;
+        }
+
+        .task-level-button:hover {
+            background-color: #e0e4e7;
+        }
+
+        .task-levels-container, .task-chapters-container {
+            margin-left: 20px;
+            margin-top: 10px;
+        }
+
+        .task-chapters-container {
+            margin-left: 40px;
+        }
+
+        .task-levels-container {
+            display: none;
+        }
+
+        .task-chapters-container {
+            display: none;
+        }
+
+        .difficulty-легкий {
+            background-color: #c8e6c9; /* Light Green */
+        }
+
+        .difficulty-средний {
+            background-color: #ffeb3b; /* Yellow */
+        }
+
+        .difficulty-тяжелый {
+            background-color: #ffcdd2; /* Light Red */
+        }
+    </style>
+</head>
+<body>
+
+    {% include 'html/login_container.html' %}
+    {% include 'html/top_bar.html' %}
+
+    <div class="container">
+        <h2>Практические задания</h2>
+        <div class="table">
+            {% for course_name, levels in task.items() %}
+                <div>
+                    <button class="task-level-button" onclick="toggleTaskLevel('{{ course_name|replace(' ', '') }}')">{{ course_name }}</button>
+                    <div class="task-levels-container" id="task-{{ course_name|replace(' ', '') }}-levels">
+                        {% for level_name, materials in levels.items() %}
+                            <div>
+                                <button class="task-level-button difficulty-{{ level_name|lower }}" onclick="toggleTaskChapters('{{ course_name|replace(' ', '') }}', '{{ level_name|replace(' ', '') }}')">Уровень: {{ level_name }}</button>                                <div class="task-chapters-container" id="task-{{ course_name|replace(' ', '') }}-{{ level_name|replace(' ', '') }}-chapters">
+                                    {% for material in materials %}
+                                        <a href="/practical_task/{{material[0]}}" style="display: block; margin-bottom: 5px; margin-left: 20px;">{{material[1]}}</a>
+                                    {% endfor %}
+                                </div>
+                            </div>
+                        {% endfor %}
+                    </div>
+                </div>
+            {% endfor %}
+        </div>
+    </div>
+
+</body>
+</html>

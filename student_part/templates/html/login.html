@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Логин</title>
+    <link rel="stylesheet" href="/css/style.css">
+</head>
+<body>
+    <form action="/login" method="post">
+        <br>
+        <br>
+        <br>
+        <br>
+        <br>
+        <br>
+        <br>
+        <br>
+        <p>Почта</p>
+        <input type="text" name="email" value="">
+        <p>Пароль</p>
+        <input type="password" name="password" value="">
+        <br>
+        <br>
+        <input style="width: 40%; height: 50px" type="submit" name="submit" value="Войти" class="submit">
+        {% if failed %}
+            <p style="color: red">Ошибка входа</p>
+        {% endif %}
+    </form>
+</body>
+</html>
