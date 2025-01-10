@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>{{ comment.title }}</title>
+    <link rel="stylesheet" href="/css/style.css">
+    <style>
+        .file-upload-wrapper {
+            position: relative;
+            overflow: hidden;
+            display: inline-block;
+        }
+
+        .file-upload-button {
+            background-color: black;
+            border: 2px solid white;
+            color: white;
+            padding: 10px 20px;
+            border-radius: 5px;
+            cursor: pointer;
+            font: 1.3rem BigBlueTerminal, monospace;
+        }
+
+        .file-upload-wrapper input[type=file] {
+            font-size: 100px;
+            position: absolute;
+            left: 0;
+            top: 0;
+            opacity: 0;
+        }
+    </style>
+</head>
+<body>
+
+{% include 'html/login_container.html' %}
+{% include 'html/top_bar.html' %}
+
+<div class="table">
+    <div style="border: 5px solid white; margin-bottom: 20px; padding: 10px; text-align: left;">
+        <h3>{{ comment.Title }}</h3>
+        {% if comment.Student_ID %}
+            <p>Автор обсуждения: {{ comment.author }}</p>
+        {% endif %}
+        <div>
+            <h4>Сообщения:</h4>
+            {% if comment.Text %}
+                {% for message_data in comment.messages %}
+                    <div style="border-top: 1px solid #ccc; padding-top: 10px; margin-top: 10px;">
+                        <p><strong>{{ message_data.author }}:</strong> {{ message_data.text }}
+                            {% if message_data.files %}
+                            <div>
+                                {% for file in message_data.files %}
+                                    {% if file.type == 'image' %}
+                                        <img src="/files/{{ file.filename }}" alt="{{ file.filename }}" style="max-width: 200px;">
+                                    {% elif file.type == 'video' %}
+                                        <video src="/files/{{ file.filename }}" controls width="320"></video>
+                                    {% elif file.type == 'audio' %}
+                                        <audio src="/files/{{ file.filename }}" controls></audio>
+                                    {% else %}
+                                        <a href="/files/{{ file.filename }}" download>{{ file.filename }}</a>
+                                    {% endif %}
+                                {% endfor %}
+                            </div>
+                            {% endif %}
+                        </p>
+                    </div>
+                {% endfor %}
+            {% endif %}
+        </div>
+        <div style="margin-top: 20px;">
+            <h5>Добавить сообщение:</h5>
+            <form action="/forum/add_message/{{ comment.Comment_ID }}" method="post" enctype="multipart/form-data">
+                <textarea name="new_message" placeholder="Введите ваше сообщение" required style="width: 100%; color: black;"></textarea>
+                <div class="file-upload-wrapper">
+                    <div class="file-upload-button">Прикрепить файл</div>
+                    <input type="file" name="files" multiple>
+                </div>
+                <button type="submit" class="submit">Отправить</button>
+            </form>
+        </div>
+    </div>
+</div>
+
+</body>
+</html>

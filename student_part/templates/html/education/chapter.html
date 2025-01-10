@@ -1,0 +1,62 @@
+<!-- templates/html/education/chapter.html -->
+<div class="container">
+    <h2> {{chapter[1]}} </h2>
+    <div class="table">
+      {% for material in chapter[2] %}
+        <div>
+            {% if material[1] == "Музыка" %}
+                <br>
+                <audio controls src="../{{material[2]}}"></audio>
+            {% elif material[1] == "Текст" %}
+                <br>
+                <p>{{material[2]}}</p>
+            {% elif material[1] == "Изображение" %}
+                <br>
+                <img src="../{{material[2]}}" alt="Изображение">
+            {% elif material[1] == "Видео" %}
+                <br>
+                <video width="320" height="240" controls >
+                    <source src="../{{material[2]}}" type="video/{{material[2].split('.')[-1]}}">
+                </video>
+            {% else %}
+                <br>
+                <br>
+                <a class="button secondary" download href="../{{material[2]}}">Скачать файл</a>
+                <br>
+                <br>
+            {% endif %}
+        </div>
+      {% endfor %}
+    </div>
+    <form action="/mark_chapter_read/{{ chapter[0] }}" method="post">
+        <input type="submit" value="Отметить как прочитанное" class="button">
+    </form>
+     <div class="discussions-section" style="margin-top: 20px;">
+        <h3>Обсуждения:</h3>
+        {% if discussions %}
+            {% for discussion in discussions %}
+                 <div class="discussion-item">
+                    <h4><a href="/forum">{{ discussion.title }}</a></h4>
+                </div>
+            {% endfor %}
+        {% else %}
+          <p>Нет обсуждений.</p>
+        {% endif %}
+    </div>
+    <div class="create-discussion-section" style="margin-top: 20px;">
+        <h5>Создать новое обсуждение</h5>
+        <form action="/forum/create_discussion" method="post" enctype="multipart/form-data">
+            <input type="hidden" name="chapter_id" value="{{ chapter[0] }}">
+            <input type="hidden" name="related_item_type" value="chapter">
+            <input type="hidden" name="course_id" value="1">
+            <input type="hidden" name="difficulty_id" value="1">
+            <input type="text" name="title" placeholder="Заголовок обсуждения" required style="width: 100%; color: black;">
+            <textarea name="text" placeholder="Введите текст сообщения" required style="width: 100%; color: black;"></textarea>
+            <div class="file-upload-wrapper">
+                <div class="file-upload-button-small">Прикрепить файл</div>
+                <input type="file" name="files" multiple>
+            </div>
+             <button type="submit" class="submit">Создать</button>
+        </form>
+    </div>
+</div>

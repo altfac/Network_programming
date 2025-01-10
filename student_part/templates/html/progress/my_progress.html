@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Мой прогресс</title>
+    <link rel="stylesheet" href="/css/style.css">
+</head>
+<body>
+
+{% include 'html/login_container.html' %}
+{% include 'html/top_bar.html' %}
+
+<div class="container">
+    <h2>Мой прогресс</h2>
+
+    <h3>Прогресс по теоретическим материалам</h3>
+    <div class="progress-bar" style="width: {{ chapter_progress_percentage }}%; background-color: #4CAF50; height: 20px; border-radius: 5px; text-align: center; line-height: 20px; color: white;">
+        {{ chapter_progress_percentage|round(0) }}%
+    </div>
+    <p>Прочитано {{ read_chapters|length }} из {{ all_chapters|length }} глав.</p>
+    {% if read_chapters %}
+        <p>Прочитанные главы:</p>
+        <ul>
+            {% for chapter in read_chapters %}
+                <li>{{ chapter[1] }}</li>
+            {% endfor %}
+        </ul>
+    {% else %}
+        <p>Вы еще не прочитали ни одной главы.</p>
+    {% endif %}
+
+    <h3>Прогресс по практическим заданиям</h3>
+    <div class="progress-bar" style="width: {{ task_progress_percentage }}%; background-color: #2196F3; height: 20px; border-radius: 5px; text-align: center; line-height: 20px; color: white;">
+        {{ task_progress_percentage|round(0) }}%
+    </div>
+    <p>Выполнено {{ attempted_tasks|selectattr('2', 'equalto', 'Принято')|list|length }} из {{ all_tasks|length }} заданий.</p>
+
+    {% if attempted_tasks %}
+        <p>Ваши попытки:</p>
+        <table class="table">
+            <thead>
+                <tr>
+                    <th>Задание</th>
+                    <th>Ваш ответ</th>
+                    <th>Вердикт</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for task in attempted_tasks %}
+                    <tr>
+                        <td>{{ task[0] }} (<a href="/practical_task/{{ task[3] }}">Перейти</a>)</td>
+                        <td>{{ task[1] }}</td>
+                        <td style="color: {% if task[2] == 'Принято' %} green {% else %} red {% endif %}">{{ task[2] }}</td>
+                    </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    {% else %}
+        <p>Вы еще не выполняли практические задания.</p>
+    {% endif %}
+</div>
+
+</body>
+</html>

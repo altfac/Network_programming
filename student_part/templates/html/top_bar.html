@@ -1,0 +1,11 @@
+<div class="menu-container">
+	<ul class="menu-list">
+		<li class="{% if current == 'Theory chapter edit' %} active-menu-tab {% endif %}"><a href="/EducationMaterials">Теоретические материалы</a></li>
+		<li class="{% if current == 'Practical tasks edit' %} active-menu-tab {% endif %}"><a href="/PracticalMaterials">Практические материалы</a></li>
+		<li class="{% if current == 'Top' %} active-menu-tab {% endif %}"><a href="/top">Топ</a></li>
+		<li class="{% if current == 'Forum' %} active-menu-tab {% endif %}"><a href="/forum">Учебный форум</a></li>
+		{% if current not in ['Theory chapter edit', 'Practical tasks edit', 'Top', 'Forum', 'Личный кабинет'] %}
+		<li class="active-menu-tab"><a href="#">{{current}}</a></li>
+		{% endif %}
+	</ul>
+</div>

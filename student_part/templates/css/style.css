@@ -1,0 +1,347 @@
+/* templates/css/style.css */
+@font-face {
+    font-family: OpenSans;
+    src: url(../fonts/OpenSans-Regular.ttf);
+}
+
+body {
+    background-color: #eceff1;
+    color: #424242;
+    font-family: OpenSans, sans-serif;
+    font-size: 1.6rem;
+    line-height: 1.6;
+    margin: 0;
+    padding: 20px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    min-height: 100vh;
+    box-sizing: border-box;
+}
+
+.container {
+    width: 95%;
+    max-width: 1200px;
+    margin-bottom: 30px;
+    padding: 25px;
+    background-color: white;
+    border-radius: 8px;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+    box-sizing: border-box;
+}
+
+ul.menu-list {
+    padding: 0;
+    margin: 15px 0;
+    list-style: none;
+    display: flex;
+    justify-content: center;
+    gap: 15px;
+}
+
+ul.menu-list li a {
+    display: block;
+    padding: 10px 18px;
+    text-decoration: none;
+    color: #546e7a;
+    border-radius: 5px;
+    transition: background-color 0.3s ease, color 0.3s ease;
+}
+
+ul.menu-list li a:hover {
+    background-color: #b0bec5;
+    color: white;
+}
+
+.active-menu-tab a {
+    background-color: #78909c;
+    color: white;
+    font-weight: 600;
+}
+
+.table {
+    width: 100%;
+    border-collapse: collapse;
+    border-radius: 6px;
+    overflow: hidden;
+    box-shadow: 0 1px 5px rgba(0, 0, 0, 0.05);
+}
+
+.table thead th {
+    background-color: #cfd8dc;
+    color: #37474f;
+    padding: 12px 15px;
+    text-align: left;
+    font-weight: 600;
+    border-bottom: 1px solid #b0bec5;
+}
+
+.table tbody td {
+    padding: 12px 15px;
+    border-bottom: 1px solid #eceff1;
+    color: #607d8b;
+}
+
+.table tbody tr:nth-child(even) {
+    background-color: #f0f4f7;
+}
+
+.table tbody tr:hover {
+    background-color: #e0e4e7;
+    transition: background-color 0.2s ease-in-out;
+}
+
+a {
+    color: #007bff;
+    text-decoration: none;
+    transition: color 0.3s ease-in-out;
+}
+
+a:hover {
+    color: #0056b3;
+}
+
+.submit, .button {
+    background-color: #00bcd4;
+    color: white;
+    padding: 12px 25px;
+    border: none;
+    border-radius: 6px;
+    cursor: pointer;
+    font-size: 1rem;
+    transition: background-color 0.3s ease, transform 0.2s ease-in-out;
+    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    text-decoration: none;
+}
+
+.submit:hover, .button:hover {
+    background-color: #00acc1;
+    transform: translateY(-1px);
+    box-shadow: 0 3px 8px rgba(0, 0, 0, 0.15);
+}
+
+form {
+    width: 90%;
+    max-width: 600px;
+    padding: 20px;
+    background-color: white;
+    border-radius: 8px;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.08);
+    margin-bottom: 30px;
+    box-sizing: border-box;
+}
+
+.login-container {
+    text-align: right;
+    margin-top: 10px;
+    color: #78909c;
+}
+
+input[type="file"] {
+    display: none;
+}
+
+input[type="text"],
+input[type="password"],
+select,
+textarea {
+    width: calc(100% - 24px);
+    padding: 10px 12px;
+    margin-bottom: 15px;
+    border: 1px solid #b0bec5;
+    border-radius: 5px;
+    font-size: 1rem;
+    color: #546e7a;
+    transition: border-color 0.3s ease-in-out, box-shadow 0.3s ease-in-out;
+    box-sizing: border-box;
+    resize: none;
+    appearance: none;
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    background-color: white;
+}
+
+input[type="text"],
+input[type="password"] {
+    background-image: none;
+    padding-right: 12px;
+}
+
+input[type="text"]:focus,
+input[type="password"]:focus,
+select:focus,
+textarea:focus {
+    outline: none;
+    border-color: #00bcd4;
+    box-shadow: 0 0 6px rgba(0, 188, 212, 0.4);
+}
+
+select {
+    cursor: pointer;
+    background-image: url('data:image/svg+xml;utf8,<svg fill="black" height="24" viewBox="0 0 24 24" width="24" xmlns="http://www.w3.org/2000/svg"><path d="M7 10l5 5 5-5z"/><path d="M0 0h24v24H0z" fill="none"/></svg>');
+    background-repeat: no-repeat;
+    background-position-x: 98%;
+    background-position-y: 50%;
+}
+
+select option {
+    padding: 8px 10px;
+}
+
+.button-group {
+    display: flex;
+    gap: 10px;
+    align-items: center;
+}
+
+.button.secondary {
+    background-color: #78909c;
+}
+
+.button.secondary:hover {
+    background-color: #607d8b;
+}
+
+body {
+    justify-content: flex-start;
+    padding-top: 20px;
+}
+
+.container {
+    margin-top: 20px;
+}
+
+.custom-dropdown button.dropdown-toggle {
+    background-color: #f0f4f7;
+    color: #546e7a;
+    padding: 10px 15px;
+    border: 1px solid #b0bec5;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+.custom-dropdown button.dropdown-toggle:hover {
+    background-color: #e0e4e7;
+}
+
+.custom-dropdown-content {
+    display: none;
+    position: absolute;
+    background-color: #fff;
+    min-width: 160px;
+    box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
+    z-index: 1;
+    border-radius: 5px;
+    border: 1px solid #b0bec5;
+    margin-top: 2px;
+}
+
+.custom-dropdown-content.open {
+    display: block;
+}
+
+.custom-dropdown-content a {
+    color: black;
+    padding: 8px 12px;
+    text-decoration: none;
+    display: block;
+    transition: background-color 0.3s ease;
+}
+
+.custom-dropdown-content a:hover {
+    background-color: #f0f4f7;
+}
+
+.custom-dropdown:hover .custom-dropdown-content {
+    display: block;
+}
+
+.sub-dropdown .dropdown-toggle {
+    display: block;
+    width: 100%;
+    text-align: left;
+}
+
+.sub-dropdown:hover .custom-dropdown-content {
+    display: block;
+    left: 100%;
+    top: 0;
+    margin-left: 2px;
+}
+
+.file-upload-wrapper {
+    position: relative;
+    overflow: hidden;
+    display: inline-block;
+    border-radius: 5px;
+    border: 1px solid #ccc;
+    margin-left: 5px; /* Adjust spacing */
+}
+/*Комментарий от ChatGPT*/
+.file-upload-button-small {
+    background-color: #eee;
+    color: #333;
+    padding: 5px 10px; /* Smaller padding */
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 0.9rem; /* Smaller font size */
+    text-align: center;
+    display: inline-block; /* Ensure it's inline */
+}
+
+.file-upload-wrapper input[type=file] {
+    font-size: 100px;
+    position: absolute;
+    left: 0;
+    top: 0;
+    opacity: 0;
+}
+.difficulty-лёгкий {
+    background-color: #33ff33;  /* Light Green */
+}
+
+.difficulty-средний {
+    background-color: #ffeb3b; /* Yellow */
+}
+
+.difficulty-тяжелый {
+    background-color: #ffcdd2; /* Light Red */
+}
+
+/* Стили для обсуждений */
+.discussions-section {
+    margin-top: 20px;
+    padding: 10px;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    background-color: #f9f9f9;
+}
+
+.discussion-item {
+    margin-bottom: 10px;
+    padding: 10px;
+    border: 1px solid #eee;
+    border-radius: 5px;
+    background-color: white;
+}
+
+.discussion-item h4 a {
+  color: #37474f;
+  text-decoration: none;
+  transition: color 0.3s ease-in-out;
+}
+.discussion-item h4 a:hover {
+    color: #0056b3;
+}
+
+.create-discussion-section {
+  margin-top: 20px;
+  border: 1px solid #ddd;
+  padding: 20px;
+  background-color: #f9f9f9;
+  border-radius: 8px;
+}

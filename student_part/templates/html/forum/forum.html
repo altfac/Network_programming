@@ -1,0 +1,139 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Учебный форум</title>
+    <link rel="stylesheet" href="/css/style.css">
+</head>
+<body>
+
+{% include 'html/login_container.html' %}
+{% include 'html/top_bar.html' %}
+
+<div style="text-align: center; margin-bottom: 20px;">
+    <button onclick="document.getElementById('newDiscussionForm').style.display='block'" class="submit">Создать новое обсуждение</button>
+</div>
+
+<div id="newDiscussionForm" style="display:none; border: 5px solid white; padding: 20px; margin: 20px auto; max-width: 800px; text-align: left;">
+    <h2>Создать новое обсуждение</h2>
+    <form action="/forum/create_discussion" method="post" enctype="multipart/form-data">
+        <div>
+            <label for="title">Заголовок:</label><br>
+            <input type="text" id="title" name="title" required style="width: 100%; color: black;">
+        </div>
+        <div style="margin-top: 10px;">
+            <label for="text">Текст сообщения:</label><br>
+            <textarea id="text" name="text" required style="width: 100%; height: 150px; color: black;"></textarea>
+        </div>
+        <div style="margin-top: 10px;">
+            <label for="course">Курс:</label><br>
+            <select id="course" name="course_id" style="width: 100%; color: black;">
+                {% for course in courses %}
+                    <option value="{{ course[0] }}">{{ course[1] }}</option>
+                {% endfor %}
+            </select>
+        </div>
+        <div style="margin-top: 10px;">
+            <label for="difficulty">Уровень сложности:</label><br>
+            <select id="difficulty" name="difficulty_id" style="width: 100%; color: black;">
+                {% for difficulty in difficulties %}
+                    <option value="{{ difficulty[0] }}">{{ difficulty[1] }}</option>
+                {% endfor %}
+            </select>
+        </div>
+        <div style="margin-top: 10px;">
+            <label for="related_item_type">Привязать к:</label><br>
+            <select id="related_item_type" name="related_item_type" style="width: 100%; color: black;">
+                <option value="">Нет</option>
+                <option value="task">Заданию</option>
+                <option value="chapter">Главе</option>
+            </select>
+        </div>
+        <div style="margin-top: 10px;" id="task_select" style="display: none;">
+            <label for="task_id">Выберите задание:</label><br>
+            <select id="task_id" name="task_id" style="width: 100%; color: black;">
+                {% for task in tasks %}
+                    <option value="{{ task[0] }}">{{ task[1] }}</option>
+                {% endfor %}
+            </select>
+        </div>
+        <div style="margin-top: 10px;" id="chapter_select" style="display: none;">
+            <label for="chapter_id">Выберите главу:</label><br>
+            <select id="chapter_id" name="chapter_id" style="width: 100%; color: black;">
+                {% for chapter in chapters %}
+                    <option value="{{ chapter[0] }}">{{ chapter[1] }}</option>
+                {% endfor %}
+            </select>
+        </div>
+        <div style="margin-top: 10px;">
+            <label>Прикрепить файлы:</label><br>
+            <div class="file-upload-wrapper">
+                <div class="file-upload-button">Выбрать файлы</div>
+                <input type="file" name="files" multiple>
+            </div>
+        </div>
+        <div style="margin-top: 20px; text-align: center;">
+            <input type="submit" value="Создать обсуждение" class="submit">
+            <button type="button" onclick="document.getElementById('newDiscussionForm').style.display='none'" class="submit">Отмена</button>
+        </div>
+    </form>
+</div>
+
+<div class="table">
+    {% for comment_data in comments %}
+    <div style="border: 5px solid white; margin-bottom: 20px; padding: 10px; text-align: left;">
+        <h3>{{ comment_data.title }}</h3>
+        <p>Автор обсуждения: {{ comment_data.author }}</p>
+        <details>
+            <summary>Сообщения</summary>
+            {% for message_data in comment_data.messages %}
+            <div style="border-top: 2px solid white; padding-top: 10px; margin-top: 10px;">
+                <p><strong>{{ message_data.author }}:</strong> {{ message_data.text }}
+                    {% if message_data.files %}
+                    <div style="margin-top: 10px;">
+                        {% for file in message_data.files %}
+                            {% if file.type == 'image' %}
+                                <img src="/files/{{ file.filename }}" alt="{{ file.filename }}" style="max-width: 200px; max-height: 200px;">
+                            {% elif file.type == 'video' %}
+                                <video width="320" height="240" controls>
+                                    <source src="/files/{{ file.filename }}" type="video/{{ file.filename.split('.')[-1] }}">
+                                    Ваш браузер не поддерживает видео тег.
+                                </video>
+                            {% elif file.type == 'audio' %}
+                                <audio controls src="/files/{{ file.filename }}">
+                                    Ваш браузер не поддерживает аудио тег.
+                                </audio>
+                            {% else %}
+                                <a href="/files/{{ file.filename }}" download>{{ file.filename }}</a>
+                            {% endif %}
+                        {% endfor %}
+                    </div>
+                    {% endif %}
+                </p>
+            </div>
+            {% endfor %}
+            <form action="/forum/add_message/{{ comment_data.comment_id }}" method="post" enctype="multipart/form-data">
+                <input type="text" name="new_message" placeholder="Написать сообщение" required style="width: 70%; color: black;">
+                <div class="button-group">
+                    <div class="file-upload-wrapper">
+                        <div class="file-upload-button-small">Файл</div>
+                        <input type="file" name="files" multiple>
+                    </div>
+                    <input type="submit" value="Отправить" class="submit">
+                </div>
+            </form>
+        </details>
+    </div>
+    {% endfor %}
+</div>
+
+<script>
+    document.getElementById('related_item_type').addEventListener('change', function() {
+        var selectedValue = this.value;
+        document.getElementById('task_select').style.display = selectedValue === 'task' ? 'block' : 'none';
+        document.getElementById('chapter_select').style.display = selectedValue === 'chapter' ? 'block' : 'none';
+    });
+</script>
+
+</body>
+</html>

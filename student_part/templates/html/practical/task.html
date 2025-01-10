@@ -1,0 +1,80 @@
+<!-- templates/html/practical/task.html -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Задача</title>
+    <link rel="stylesheet" href="/css/style.css">
+</head>
+<body>
+
+{% include 'html/login_container.html' %}
+{% include 'html/top_bar.html' %}
+
+<div class="container">
+    <h2> {{task[1]}} </h2>
+    <h3> Описание: </h3>
+    <p> {{task[4]}} </p>
+    <h3> Награда за выполнение: </h3>
+    <p> {{task[3]}} </p>
+    <form action="/add_attempt/{{task[0]}}" method="get">
+        <div class="form-group">
+            <label for="answer">Ответ:</label>
+            <input type="text" id="answer" name="answer" value="" required>
+        </div>
+        <div class="button-group">
+            <input type="submit" name="submit" value="Отправить" class="button">
+        </div>
+    </form>
+
+    <table class="table submissions">
+        <caption>
+            Попытки
+        </caption>
+        <thead>
+            <tr>
+                <th scope="col">Твой ответ</th>
+                <th scope="col">Вердикт</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for attempt in attempts %}
+            <tr>
+                <td>{{attempt[1]}}</td>
+                <td style="color: {% if attempt[2] == 'Принято' %} green {% else %} red {% endif %}">{{attempt[2]}}</td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+    <div class="discussions-section" style="margin-top: 20px;">
+        <h3>Обсуждения:</h3>
+        {% if discussions %}
+            {% for discussion in discussions %}
+                 <div class="discussion-item">
+                    <h4><a href="/forum">{{ discussion.title }}</a></h4>
+                </div>
+            {% endfor %}
+        {% else %}
+            <p>Нет обсуждений.</p>
+        {% endif %}
+    </div>
+    <div class="create-discussion-section" style="margin-top: 20px;">
+        <h5>Создать новое обсуждение</h5>
+        <form action="/forum/create_discussion" method="post" enctype="multipart/form-data">
+            <input type="hidden" name="task_id" value="{{ task[0] }}">
+            <input type="hidden" name="related_item_type" value="task">
+            <input type="hidden" name="course_id" value="1">
+            <input type="hidden" name="difficulty_id" value="1">
+            <input type="text" name="title" placeholder="Заголовок обсуждения" required style="width: 100%; color: black;">
+            <textarea name="text" placeholder="Введите текст сообщения" required style="width: 100%; color: black;"></textarea>
+             <div class="file-upload-wrapper">
+                 <div class="file-upload-button-small">Прикрепить файл</div>
+                <input type="file" name="files" multiple>
+            </div>
+             <button type="submit" class="submit">Создать</button>
+        </form>
+    </div>
+</div>
+
+</body>
+</html>
